@@ -49,6 +49,8 @@ st.header('By Faraz Younus', divider='gray')
 
 st.write(filtered_df)
 
+st.header('Line Chart', divider='gray')
+
 crime_counts_by_date = filtered_df.groupby(['Date', 'Primary Type']).size().unstack(fill_value=0)
 st.line_chart(crime_counts_by_date)
 
