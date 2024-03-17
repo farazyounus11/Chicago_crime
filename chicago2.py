@@ -45,7 +45,7 @@ filtered_df = df[
 ]
 
 st.title("Chicago Crime Visualization")
-st.header('By Faraz Younus', divider='gray')
+st.header('By Faraz Younus | M.S. Stats & Data Science', divider='gray')
 
 st.write(filtered_df)
 
