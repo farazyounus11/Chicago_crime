@@ -49,6 +49,18 @@ st.header('By Faraz Younus | M.S. Stats & Data Science', divider='gray')
 
 st.write(filtered_df)
 
+st.header('Stats')
+
+number_of_crimes = len(filtered_df)
+true_arrest_count = filtered_df['Arrest'].sum()
+col1, col2 = st.columns(2)
+
+with col1:
+    st.metric(label="Number of Crimes", value=number_of_crimes)
+with col2:
+    st.metric(label="Arrest Rate", value=(true_arrest_count/number_of_crimes)*100)
+    
+
 st.header('Line Chart', divider='gray')
 
 crime_counts_by_date = filtered_df.groupby(['Date', 'Primary Type']).size().unstack(fill_value=0)
@@ -84,14 +96,3 @@ st.pydeck_chart(pdk.Deck(
         ),
     ],
 ))
-
-
-
-number_of_crimes = len(filtered_df)
-true_arrest_count = filtered_df['Arrest'].sum()
-col1, col2 = st.columns(2)
-
-with col1:
-    st.metric(label="Number of Crimes", value=number_of_crimes)
-with col2:
-    st.metric(label="Arrest Rate", value=(true_arrest_count/number_of_crimes)*100)
