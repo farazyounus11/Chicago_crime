@@ -64,9 +64,6 @@ with col2:
 st.header('Scatter Chart', divider='gray')
 
 grouped = df.groupby(['Date', 'PrimaryType']).size().reset_index(name='Counts')
-
-# Now, prepare for visualization in Streamlit (conceptual; adapt as needed)
-# Option 1: Plot each PrimaryType in its own chart
 for primary_type in grouped['PrimaryType'].unique():
     subset = grouped[grouped['PrimaryType'] == primary_type]
     st.write(f"Primary Type: {primary_type}")
