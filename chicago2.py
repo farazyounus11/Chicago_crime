@@ -71,7 +71,53 @@ st.scatter_chart(
     y=crime_counts_by_date.columns[1:],  # Exclude 'Date' column
 )
 
-st.header('Map', divider='gray')
+st.header('Scatter Map', divider='gray')
+import streamlit as st
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import pydeck as pdk
+
+# Assuming 'filtered_df' is your DataFrame
+# group the DataFrame by 'Date' and 'Primary Type', then unstack to reshape the data
+crime_counts_by_date = filtered_df.groupby(['Date', 'Primary Type']).size().unstack(fill_value=0)
+
+# Reset index to make 'Date' a column
+crime_counts_by_date = crime_counts_by_date.reset_index()
+
+# Create a regression line using seaborn
+sns.regplot(data=crime_counts_by_date, x='Date', y=crime_counts_by_date.columns[1:], scatter=False)
+
+# Get the coefficients of the regression line
+coefficients = np.polyfit(crime_counts_by_date.index, crime_counts_by_date.drop(columns='Date').sum(axis=1), 1)
+
+# Create a regression line as a PyDeck layer
+layer = pdk.Layer(
+    "LineLayer",
+    data=crime_counts_by_date,
+    get_position=["Date", crime_counts_by_date.columns[1]],
+    get_color=[255, 0, 0],
+    get_width=5,
+    auto_highlight=True,
+)
+
+# Create a deckgl.PyDeck instance with the layer
+view_state = pdk.ViewState(latitude=0, longitude=0, zoom=0)
+deck = pdk.Deck(
+    map_style="mapbox://styles/mapbox/light-v9",
+    layers=[layer],
+    initial_view_state=view_state,
+    tooltip={"html": "<b>{}</b><br />{}/sqkm".format("{Name}", "{Value}")},
+)
+
+# Display the PyDeck chart using Streamlit
+st.pydeck_chart(deck)
+
+
+
+
+
+
 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
