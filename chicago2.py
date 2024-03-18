@@ -64,10 +64,11 @@ with col2:
 st.header('Scatter Chart', divider='gray')
 
 grouped = df.groupby(['Date', 'PrimaryType']).size().reset_index(name='Counts')
-for primary_type in grouped['PrimaryType'].unique():
-    subset = grouped[grouped['PrimaryType'] == primary_type]
-    st.write(f"Primary Type: {primary_type}")
-    st.scatter_chart(subset[['Date', 'Counts']])
+st.scatter_chart(
+    grouped,
+    x='Date',
+    y='Counts',
+    color='PrimaryType',)
 
 st.header('Map', divider='gray')
 
