@@ -64,11 +64,9 @@ with col2:
 st.header('Scatter Chart', divider='gray')
 
 grouped = df.groupby(['Date', 'PrimaryType']).size().reset_index(name='Counts')
-st.scatter_chart(
-    grouped,
-    x='Date',
-    y='Counts',
-    color='PrimaryType',)
+
+# Create a bar chart
+st.bar_chart(grouped.set_index('Date'))
 
 st.header('Map', divider='gray')
 
