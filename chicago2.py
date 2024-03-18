@@ -61,10 +61,16 @@ with col2:
     st.metric(label="Arrest Rate", value=(true_arrest_count/number_of_crimes)*100)
     
 
-st.header('Line Chart', divider='gray')
+st.header('Scatter Chart', divider='gray')
 
-crime_counts_by_date = filtered_df.groupby(['Date', 'Primary Type']).size().unstack(fill_value=0)
-st.line_chart(crime_counts_by_date)
+grouped = df.groupby(['Date', 'PrimaryType']).size().reset_index(name='Counts')
+
+# Now, prepare for visualization in Streamlit (conceptual; adapt as needed)
+# Option 1: Plot each PrimaryType in its own chart
+for primary_type in grouped['PrimaryType'].unique():
+    subset = grouped[grouped['PrimaryType'] == primary_type]
+    st.write(f"Primary Type: {primary_type}")
+    st.scatter_chart(subset[['Date', 'Counts']])
 
 st.header('Map', divider='gray')
 
