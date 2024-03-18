@@ -64,13 +64,11 @@ with col2:
 st.header('Scatter Chart', divider='gray')
 
 crime_counts_by_date = filtered_df.groupby(['Date', 'Primary Type']).size().unstack(fill_value=0)
-
-# Create a scatter chart
+crime_counts_by_date = crime_counts_by_date.reset_index()
 st.scatter_chart(
-    crime_counts_by_date,
+    data=crime_counts_by_date,
     x='Date',
     y=crime_counts_by_date.columns[1:],  # Exclude 'Date' column
-    color=crime_counts_by_date.columns[1:],  # Use 'Primary Type' values for color
 )
 
 st.header('Map', divider='gray')
